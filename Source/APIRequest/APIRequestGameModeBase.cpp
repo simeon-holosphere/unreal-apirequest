@@ -25,10 +25,11 @@ void AAPIRequestGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	RenewableNinjaExample();
+	// RenewableNinjaExample();
+	JsonPlaceHolderPutExample();	
 }
 
-void AAPIRequestGameModeBase::RenewableNinjaExample()
+void AAPIRequestGameModeBase::RenewableNinjaGetExample()
 {
 	URequestObject* RequestObject = NewObject<URequestObject>();
 	if (RequestObject)
@@ -58,7 +59,7 @@ void AAPIRequestGameModeBase::RenewableNinjaExample()
 		Request.Args = Args;
 		Request.Timeout = 5.0f;
 
-		RequestObject->OnJsonConverted.AddLambda([&](
+		RequestObject->OnJsonDeserialization.AddLambda([&](
 			const TSharedPtr<FJsonObject>& JsonObject)
 			{
 				const TSharedPtr<FJsonObject>* DataObject;
@@ -91,6 +92,23 @@ void AAPIRequestGameModeBase::RenewableNinjaExample()
 		RequestObject->MakeRequest(Request);
 	}
 }
+
+void AAPIRequestGameModeBase::JsonPlaceHolderPutExample()
+{
+	URequestObject* RequestObject = NewObject<URequestObject>();
+	if (RequestObject)
+	{
+		FRequest Request;
+		Request.JsonFilePath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("External/jsonplaceholder.json"));
+		Request.APIBase = TEXT("https://jsonplaceholder.typicode.com/");
+		Request.APIExtension = TEXT("posts/1");
+		Request.Timeout = 5.0f;
+		Request.Type = ERequestType::PUT;
+		
+		RequestObject->MakeRequest(Request);
+	}
+}
+
 
 FString AAPIRequestGameModeBase::ConvertUNIXTime(const FString& TimestampMilliseconds)
 {

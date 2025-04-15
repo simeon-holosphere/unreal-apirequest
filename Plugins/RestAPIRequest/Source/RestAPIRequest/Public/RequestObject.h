@@ -56,13 +56,15 @@ struct FRequest
 
 	FString Username;
 	FString Password;
-	
-	TArray<FString> Args;	
+
+	TArray<FString> Args;
+
+	FString JsonFilePath;
 	
 	float Timeout;
 };
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnJsonConverted, const TSharedPtr<FJsonObject>&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnJsonDeserialization, const TSharedPtr<FJsonObject>&);
 
 UCLASS()
 class RESTAPIREQUEST_API URequestObject : public UObject
@@ -73,9 +75,25 @@ public:
 	void MakeRequest(const FRequest& Request);
 
 public:
-	FOnJsonConverted OnJsonConverted;	
+	FOnJsonDeserialization OnJsonDeserialization;	
 
 private:
-	void ConvertResponseJson(const FString& ResponseContent);
-	void OnRequestProcessed(FHttpRequestPtr Request, FHttpResponsePtr Reponse, bool bProcessedSuccessfully);
+	void AddHeaders(TSharedRef<IHttpRequest> Request);
+	void AddArgs(FString& QueryString) const;
+	void AddCredentials(FString& QueryString) const;
+	
+	void Get();
+	void Put();
+	void Post();
+	void Delete();
+	
+	void BroadcastJsonDeserialization(const FString& JsonString);
+	
+	void OnGetRequestProcessed(FHttpRequestPtr Request, FHttpResponsePtr Reponse, bool bProcessedSuccessfully);
+	void OnPutRequestProcessed(FHttpRequestPtr Request, FHttpResponsePtr Reponse, bool bProcessedSuccessfully);
+	void OnPostRequestProcessed(FHttpRequestPtr Request, FHttpResponsePtr Reponse, bool bProcessedSuccessfully);
+	void OnDeleteRequestProcessed(FHttpRequestPtr Request, FHttpResponsePtr Reponse, bool bProcessedSuccessfully);
+
+private:
+	FRequest Internal_Request;
 };
