@@ -25,8 +25,10 @@ void AAPIRequestGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// RenewableNinjaExample();
-	JsonPlaceHolderPutExample();	
+	RenewableNinjaGetExample();
+	//JsonPlaceHolderPutExample();
+	//JsonPlaceHolderPostExample();
+	//JsonPlaceHolderDeleteExample();
 }
 
 void AAPIRequestGameModeBase::RenewableNinjaGetExample()
@@ -93,13 +95,45 @@ void AAPIRequestGameModeBase::RenewableNinjaGetExample()
 	}
 }
 
+void AAPIRequestGameModeBase::JsonPlaceHolderDeleteExample()
+{
+	URequestObject* RequestObject = NewObject<URequestObject>();
+	if (RequestObject)
+	{
+		FRequest Request;
+		Request.APIBase = TEXT("https://jsonplaceholder.typicode.com/");
+		Request.APIExtension = TEXT("posts/1"); // Entry in database
+		Request.Timeout = 5.0f;
+		Request.Type = ERequestType::DELETE;
+		
+		RequestObject->MakeRequest(Request);
+	}
+}
+
+void AAPIRequestGameModeBase::JsonPlaceHolderPostExample()
+{
+	URequestObject* RequestObject = NewObject<URequestObject>();
+	if (RequestObject)
+	{
+		FRequest Request;
+		Request.Headers.Emplace(TEXT("Content-Type"), TEXT("Application/Json"));
+		Request.JsonFilePath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("External/jsonplaceholder-post.json"));
+		Request.APIBase = TEXT("https://jsonplaceholder.typicode.com/");
+		Request.APIExtension = TEXT("posts");
+		Request.Timeout = 5.0f;
+		Request.Type = ERequestType::POST;
+		
+		RequestObject->MakeRequest(Request);
+	}
+}
+
 void AAPIRequestGameModeBase::JsonPlaceHolderPutExample()
 {
 	URequestObject* RequestObject = NewObject<URequestObject>();
 	if (RequestObject)
 	{
 		FRequest Request;
-		Request.JsonFilePath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("External/jsonplaceholder.json"));
+		Request.JsonFilePath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("External/jsonplaceholder-put.json"));
 		Request.APIBase = TEXT("https://jsonplaceholder.typicode.com/");
 		Request.APIExtension = TEXT("posts/1");
 		Request.Timeout = 5.0f;

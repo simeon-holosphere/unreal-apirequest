@@ -78,6 +78,8 @@ public:
 	FOnJsonDeserialization OnJsonDeserialization;	
 
 private:
+	bool DoesJsonFileExist() const;
+	bool ReadJsonFile(FString& ModifiedString) const;
 	void AddHeaders(TSharedRef<IHttpRequest> Request);
 	void AddArgs(FString& QueryString) const;
 	void AddCredentials(FString& QueryString) const;

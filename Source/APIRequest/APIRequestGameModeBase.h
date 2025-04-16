@@ -30,7 +30,9 @@ class APIREQUEST_API AAPIRequestGameModeBase : public AGameModeBase
 
 	// Examples
 	void RenewableNinjaGetExample();
-	void JsonPlaceHolderPutExample();	
+	void JsonPlaceHolderDeleteExample();
+	void JsonPlaceHolderPostExample();
+	void JsonPlaceHolderPutExample();
 	
 public:
 	virtual void Tick(float DeltaTime) override;
