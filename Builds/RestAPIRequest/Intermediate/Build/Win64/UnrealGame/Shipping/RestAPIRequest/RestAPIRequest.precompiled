@@ -1,0 +1,7 @@
+{
+	"OutputFiles": [
+		"..\\..\\..\\x64\\UnrealGame\\Shipping\\RestAPIRequest\\Module.RestAPIRequest.cpp.obj",
+		"..\\..\\..\\x64\\UnrealGame\\Shipping\\RestAPIRequest\\RequestObject.cpp.obj",
+		"..\\..\\..\\x64\\UnrealGame\\Shipping\\RestAPIRequest\\RestAPIRequest.cpp.obj"
+	]
+}
